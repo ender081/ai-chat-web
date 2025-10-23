@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Chat Web</title>
+  <title>AI Chat</title>
   <style>
     body {
       font-family: "Poppins", sans-serif;
-      background: linear-gradient(135deg, #0f172a, #1e293b);
+      background: #0f172a;
       color: white;
       display: flex;
       justify-content: center;
@@ -15,16 +15,14 @@
       height: 100vh;
       margin: 0;
     }
-    .chat-container {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.5);
-      width: 95%;
+    .chat {
+      width: 90%;
       max-width: 600px;
+      background: #1e293b;
+      border-radius: 12px;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
-      height: 85vh;
-      overflow: hidden;
     }
     .messages {
       flex: 1;
@@ -40,25 +38,19 @@
       max-width: 80%;
       word-wrap: break-word;
     }
-    .user {
-      background: #2563eb;
-      align-self: flex-end;
-    }
-    .bot {
-      background: #334155;
-      align-self: flex-start;
-    }
+    .user { background: #2563eb; align-self: flex-end; }
+    .bot { background: #334155; align-self: flex-start; }
     .input-area {
       display: flex;
-      background: #0f172a;
-      border-top: 1px solid #334155;
+      background: #020617;
+      border-top: 1px solid #1e293b;
     }
     input {
       flex: 1;
       background: transparent;
       border: none;
-      padding: 12px;
       color: white;
+      padding: 12px;
       font-size: 16px;
       outline: none;
     }
@@ -73,10 +65,10 @@
   </style>
 </head>
 <body>
-  <div class="chat-container">
+  <div class="chat">
     <div class="messages" id="messages"></div>
     <div class="input-area">
-      <input type="text" id="input" placeholder="Ketik pesan..." />
+      <input id="input" placeholder="Ketik pesan..." />
       <button id="send">Kirim</button>
     </div>
   </div>
@@ -102,11 +94,9 @@
       addMessage("AI sedang mengetik...", "bot");
 
       try {
-        const response = await fetch(
-          `https://api.affiliateplus.xyz/api/chatbot?message=${encodeURIComponent(text)}&botname=AI&ownername=Kariem`
-        );
-        const data = await response.json();
-        messages.lastChild.textContent = data.message;
+        const res = await fetch(`https://api.monkedev.com/fun/chat?msg=${encodeURIComponent(text)}`);
+        const data = await res.json();
+        messages.lastChild.textContent = data.response || "AI tidak merespons 😅";
       } catch (err) {
         messages.lastChild.textContent = "⚠️ Gagal terhubung ke AI.";
         console.error(err);
